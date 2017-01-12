@@ -1,0 +1,67 @@
+<html>
+    <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	</head>
+	<body>
+	    <script type="text/javascript">
+	    	
+	    	function getUrlParam(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 构造一个含有目标参数的正则表达式对象
+				var r = window.location.search.substr(1).match(reg); // 匹配目标参数
+				if (r != null)
+					return unescape(r[2]);
+				return null; // 返回参数值
+			}
+
+			//获得coolie 的值
+			function cookie(name) {
+				var _cookieStr = document.cookie;
+
+				var cookieArray = _cookieStr.split("; "); //得到分割的cookie名值对
+				for (var i = 0; i < cookieArray.length; i++) {
+					var arr = cookieArray[i].split("="); //将名和值分开   
+					if (arr[0] == name) return decodeURIComponent(arr[1]); //如果是指定的cookie，则返回它的值   
+				}
+				return "";
+			}
+	    	
+	    	$(function(){ 
+			var code = getUrlParam("code"); 
+			var state = getUrlParam("state"); 
+			//alert(window.location.href); 
+
+			var bd_frame = cookie("bd_framework");
+			//window.location.href="https://openapi.baidu.com/oauth/2.0/token?grant_type=authorization_code&client_id=4tjhI1dx8WPmCIKtl365x7Xg&client_secret=CdRBKcdVQDdZn8AFoBwgZlfyAxd5Es08&redirect_uri=http://m.lvmama.com/static/baidulogin.html&code="+code 
+			$.ajax({ 
+				url : '/clutter/bd/t_baiduLogin.htm', 
+				data : {'code': code}, 
+				type : "POST", 
+				success : function(datas) { 
+
+					window.parent.onSuccess();
+					// if(bd_frame==1){
+					// //框内
+					
+					// }else{
+					// //非框
+					// 	if(datas!=null && datas.error==null){ 
+					// 		//alert(datas.username); 
+					// 		if(state!=null && state!="" && state!=undefined){
+					// 			window.parent.location.href=state; 
+					// 		}else{
+					// 			window.parent.location.href="http://qing.lvmama.com";
+					// 		}
+					// 	}else{ 
+					// 		alert(datas.error); 
+					// 	} 
+					// }
+				}, 
+				error:function() { 
+					alert("error"); 
+				} 
+				}); 
+			});
+	    </script>
+	</body>
+</html>
