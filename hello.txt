@@ -3,3 +3,4 @@ second
 third
 master and feature1 coding
 dev coding
+I've fixed the bug.
